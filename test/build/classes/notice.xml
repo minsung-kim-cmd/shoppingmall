@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticens">
+	<resultMap type="notice" id="resultMap">
+		<result property="ncode" column="ncode"/>
+		<result property="nsubject" column="nsubject"/>
+		<result property="ndate" column="ndate"/>
+		<result property="nwriter" column="nwriter"/>
+		<result property="ncontent" column="ncontent"/>
+		<result property="nview" column="nview"/>
+	</resultMap>
+	<!-- parameterType : 매개변수  , resultType : 결과 반환값-->
+	<select id ="list" parameterType="hashmap" resultType="notice">
+		select * from (select rowNum rn, a.* from(select * from notice order by ncode desc)a) 
+		where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="select" parameterType="string" resultType="notice">
+		select * from notice where ncode=#{ncode}
+	</select>
+	<select id="count" resultType="int">
+		select count(*) from notice
+	</select>
+	<insert id="insert" parameterType="notice">
+		insert into notice values(ncode_seq.nextval,#{nsubject},sysdate,'관리자',#{ncontent},0)
+	</insert>
+	<update id="update" parameterType="map">
+		update notice set nsubject=#{nsubject}, ncontent=#{ncontent}, ndate=sysdate 
+		where ncode=#{ncode}
+	</update>
+	<update id="upview" parameterType="string">
+		update notice set nview=nview+1 where ncode=#{ncode}
+	</update>
+	<delete id="delete" parameterType="string">
+		delete from notice where ncode=#{ncode}
+	</delete>
+</mapper>

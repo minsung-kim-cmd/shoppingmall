@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderns">
+	<resultMap type="order" id="resultMap">
+		<result property="ocode" column="ocode"/>
+		<result property="cid" column="cid"/>
+		<result property="pcode" column="pcode"/>
+		<result property="pname" column="pname"/>
+		<result property="poption" column="poption"/>
+		<result property="pimage" column="pimage"/>
+		<result property="pcount" column="pcount"/>
+		<result property="pprice" column="pprice"/>
+	</resultMap>
+	<insert id="insert" parameterType="order">
+	insert into order1 values(#{ocode},#{cid},#{pcode},#{pname},#{pcount},#{pprice},#{poption},#{pimage})
+	</insert>
+	<select id="select" parameterType="map" resultType="order">
+		select * from order1 where cid=#{cid} and ocode=#{ocode}
+	</select>
+	<select id="total" resultType="int">
+		select count(*) from order1
+	</select>
+	<select id="list" parameterType="string" resultType="order">
+		select * from order1 where ocode=#{ocode}
+	</select>
+	<select id="chkpro" parameterType="map" resultType="int">
+		select count(*) from order1 where cid=#{cid} and pcode=#{pcode}
+	</select>
+</mapper>

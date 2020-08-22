@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customerns">
+	<resultMap type="customer" id="resultMap">
+		<result property="cno" column="cno"/>
+		<result property="cid" column="cid"/>
+		<result property="cname" column="cname"/>
+		<result property="caddr" column="caddr"/>
+		<result property="ctel" column="ctel"/>
+		<result property="cjoin" column="cjoin"/>
+		<result property="cemail" column="cemail"/>
+		<result property="cbir" column="cbir"/>
+		<result property="cpass" column="cpass"/>
+		<result property="cdel" column="cdel"/>
+		<result property="cpostcode" column="cpostcode"/>
+	</resultMap>
+	<!-- parameterType : 매개변수  , resultType : 결과 반환값-->
+	<select id="total" parameterType="map" resultType="int">
+		select count(*) from customer
+	</select>
+	<select id="list" parameterType="hashmap" resultMap="resultMap">
+		select * from (select rowNum rn, a.* from (select * from customer order by cjoin desc) a )
+			where rn between #{startRow} and #{endRow}
+	</select>
+	<select id ="select" parameterType="string" resultType="customer">
+		select * from customer where cid=#{cid}
+	</select>
+	<select id ="cnoselect" parameterType="string" resultType="customer">
+		select * from customer where cno=#{cno}
+	</select>
+	<select id ="selectid" parameterType="map" resultType="string">
+		select cid from customer where cname=#{cname} and cbir=#{cbir}
+	</select>
+	<select id ="selectpass" parameterType="map" resultType="string">
+		select cpass from customer where cname=#{cname} and cbir=#{cbir} and cid=#{cid}
+	</select>
+	<select id="confirmid" resultType="list">
+		select cid from customer
+	</select>
+	<select id="idcheck" parameterType="string" resultType="int">
+		select count(*) from customer where cid=#{cid}
+	</select>
+	<insert id="insert" parameterType="customer">
+		insert into customer values(cno_seq.nextval,#{cid},#{cname},#{caddr},#{ctel},sysdate,
+		#{cemail},#{cbir},#{cpass},'n',#{cpostcode},#{cdetailaddr})
+	</insert>
+	<update id="update" parameterType="customer">
+		update customer set cpass=#{cpass}, cname=#{cname}, ctel=#{ctel} ,caddr=#{caddr}, cdetailaddr=#{cdetailaddr},
+		 cemail=#{cemail}, cbir=#{cbir} ,cpostcode=#{cpostcode} where cid=#{cid}
+	</update>
+	<update id="delete" parameterType="string">
+		update customer set cdel='y' where cid=#{cid}
+	</update>
+	<delete id="deletecus" parameterType="string"> <!-- 회원데이터 완전삭제 -->
+	delete from customer where cno=#{cno}
+	</delete>
+	<update id="chgpass" parameterType="map">
+		update customer set cpass=#{cpass} where cid=#{cid}
+	</update>
+</mapper>

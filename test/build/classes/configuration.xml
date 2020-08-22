@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<properties resource="db.properties"/>
+<typeAliases>
+<typeAlias alias="customer" type="model.Customer" />
+<typeAlias alias="notice" type="model.Notice" />
+<typeAlias alias="product" type="model.Product" />
+<typeAlias alias="review" type="model.Review" />
+<typeAlias alias="order" type="model.Order1" />
+<typeAlias alias="cart" type="model.Cart" />
+<typeAlias alias="orderl" type="model.OrderL" />
+
+</typeAliases>
+<environments default="development">
+<environment id="development">
+<transactionManager type="JDBC" />
+<dataSource type="POOLED">
+<property name="driver" value="${driver}" />
+<property name="url" value="${url}" />
+<property name="username" value="${username}" />
+<property name="password" value="${password}" />
+</dataSource>
+</environment>
+</environments>
+<mappers>
+<mapper resource="customer.xml" />
+<mapper resource="notice.xml" />
+<mapper resource="product.xml" />
+<mapper resource="review.xml" />
+<mapper resource="order.xml" />
+<mapper resource="cart.xml" />
+<mapper resource="orderlist.xml" />
+</mappers>
+</configuration>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderlns">
+	<resultMap type="orderl" id="resultMap">
+		<result property="lcode" column="lcode"/>
+		<result property="ocode" column="ocode"/>
+		<result property="cid" column="cid"/>
+		<result property="ocount" column="ocount"/>
+		<result property="odel" column="odel"/>
+		<result property="oprice" column="oprice"/>
+		<result property="odate" column="odate"/>
+		<result property="oname" column="oname"/>
+		<result property="oaddr" column="oaddr"/>
+		<result property="otel" column="otel"/>
+		<result property="omemo" column="omemo"/>
+		<result property="oinfo" column="oinfo"/>
+	</resultMap>
+	<insert id="insert" parameterType="orderl">
+	insert into order_list values(lcode_seq.nextval,#{ocode},#{cid},sysdate,'n',#{ocount},
+	#{oprice},#{oname},#{oaddr},#{otel},#{omemo},#{oinfo})
+	</insert>
+	<select id="select" parameterType="string" resultType="orderl">
+		select * from order_list where cid=#{cid}
+	</select>
+</mapper>

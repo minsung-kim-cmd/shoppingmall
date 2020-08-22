@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productns">
+	<resultMap type="product" id="resultMap">
+		<result property="pcode" column="pcode"/>
+		<result property="pname" column="pname"/>
+		<result property="pprice" column="pprice"/>
+		<result property="pcount" column="pcount"/>
+		<result property="pimage" column="pimage"/>
+		<result property="pcon" column="pcon"/>
+		<result property="b_code" column="b_code"/>
+		<result property="a_code" column="a_code"/>
+		<result property="poption" column="poption"/>
+		<result property="pdel" column="pdel"/>
+	</resultMap>
+	<!-- parameterType : 매개변수  , resultType : 결과 반환값-->
+	<select id="list" parameterType="hashmap" resultMap="resultMap">
+		select * from (select rowNum rn, a.* from (select * from product order by pname desc) a )
+			where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="total" parameterType="map" resultType="int">
+		select count(*) from product
+	</select>
+	<insert id="insert" parameterType="product">
+		insert into product values(product_seq.nextval,#{pname},#{pprice},#{pcount},#{pimage},#{pcon},#{b_code},#{a_code},#{poption},'n')
+	</insert>
+	<select id="select" parameterType="product" resultType="product">
+	select * from product where pcode=#{pcode}
+	</select>
+	<update id="delete" parameterType="string">
+	update product set pdel='y' where pcode=#{pcode}
+	</update>
+	<update id="update" parameterType="product">
+	update product set pname=#{pname},pprice=#{pprice},pcount=#{pcount}
+	,pcon=#{pcon},b_code=#{b_code},a_code=#{a_code},poption=#{poption} where pcode=#{pcode}
+	</update>
+	<select id="main" parameterType="string" resultType="product">
+		select * from product where b_code=#{b_code}
+	</select>
+	<select id="name" parameterType="string" resultType="string">
+		select pname from product where pcode=#{pcode}
+	</select>
+</mapper>

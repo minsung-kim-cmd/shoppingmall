@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewns">
+	<resultMap type="review" id="resultMap">
+		<result property="rcode" column="rcode"/>
+		<result property="rdate" column="rdate"/>
+		<result property="rcontent" column="rcontent"/>
+		<result property="rsubject" column="rsubject"/>
+		<result property="rwriter" column="rwriter"/>
+		<result property="pcode" column="pcode"/>
+		<result property="rimg" column="rimg"/>
+	</resultMap>
+	<!-- parameterType : 매개변수  , resultType : 결과 반환값-->
+	<select id="list" parameterType="string" resultType="review">
+		select * from review where pcode=#{pcode}
+	</select>
+	<insert id="insert" parameterType="review">
+		insert into review values(rcode_seq.nextval,sysdate,#{rcontent},#{rsubject},#{rwriter},#{pcode},#{rimg}) 
+	</insert>
+</mapper>
